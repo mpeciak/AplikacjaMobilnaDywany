@@ -1,0 +1,456 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DywanyAppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Dywan">
+          <Key>
+            <PropertyRef Name="IdDywanu" />
+          </Key>
+          <Property Name="IdDywanu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Indeks" Type="int" />
+          <Property Name="Ilosc" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Nazwa" Type="nvarchar" MaxLength="50" />
+          <Property Name="Grupa" Type="nvarchar" MaxLength="50" />
+          <Property Name="Cena" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="IdPolozenia" Type="int" />
+          <Property Name="IdPromocji" Type="int" />
+          <Property Name="CzyNaPromocji" Type="bit" />
+          <Property Name="IdZdjecia" Type="int" />
+        </EntityType>
+        <EntityType Name="Miejsce">
+          <Key>
+            <PropertyRef Name="IdMiejsca" />
+          </Key>
+          <Property Name="IdMiejsca" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NazwaMiejsca" Type="nvarchar" MaxLength="50" />
+          <Property Name="NazwaPolozenia" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Plusy">
+          <Key>
+            <PropertyRef Name="IdPlusu" />
+          </Key>
+          <Property Name="IdPlusu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Indeks" Type="int" />
+          <Property Name="Ilosc" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Nazwa" Type="nvarchar" MaxLength="50" />
+          <Property Name="IdMiejsca" Type="int" />
+          <Property Name="Cena" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="Pracownik">
+          <Key>
+            <PropertyRef Name="IdPracownika" />
+          </Key>
+          <Property Name="IdPracownika" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Imie" Type="nvarchar" MaxLength="50" />
+          <Property Name="Nazwisko" Type="nvarchar" MaxLength="50" />
+          <Property Name="NumerPracownika" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Promocja">
+          <Key>
+            <PropertyRef Name="IdPromocji" />
+          </Key>
+          <Property Name="IdPromocji" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Indeks" Type="int" />
+          <Property Name="IdMiejsca" Type="int" />
+          <Property Name="Nazwa" Type="nvarchar" MaxLength="50" />
+          <Property Name="Ilosc" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Cena" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Zdjecie">
+          <Key>
+            <PropertyRef Name="IdZdjecia" />
+          </Key>
+          <Property Name="IdZdjecia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NazwaZdjecia" Type="nvarchar" MaxLength="50" />
+          <Property Name="UrlZdjecia" Type="nvarchar" MaxLength="50" />
+          <Property Name="Miniaturka" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Dywan_Miejsce">
+          <End Role="Miejsce" Type="Self.Miejsce" Multiplicity="0..1" />
+          <End Role="Dywan" Type="Self.Dywan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Miejsce">
+              <PropertyRef Name="IdMiejsca" />
+            </Principal>
+            <Dependent Role="Dywan">
+              <PropertyRef Name="IdPolozenia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dywan_Promocja">
+          <End Role="Promocja" Type="Self.Promocja" Multiplicity="0..1" />
+          <End Role="Dywan" Type="Self.Dywan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Promocja">
+              <PropertyRef Name="IdPromocji" />
+            </Principal>
+            <Dependent Role="Dywan">
+              <PropertyRef Name="IdPromocji" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dywan_Zdjecie">
+          <End Role="Zdjecie" Type="Self.Zdjecie" Multiplicity="0..1" />
+          <End Role="Dywan" Type="Self.Dywan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zdjecie">
+              <PropertyRef Name="IdZdjecia" />
+            </Principal>
+            <Dependent Role="Dywan">
+              <PropertyRef Name="IdZdjecia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Plusy_Miejsce">
+          <End Role="Miejsce" Type="Self.Miejsce" Multiplicity="0..1" />
+          <End Role="Plusy" Type="Self.Plusy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Miejsce">
+              <PropertyRef Name="IdMiejsca" />
+            </Principal>
+            <Dependent Role="Plusy">
+              <PropertyRef Name="IdMiejsca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Promocja_Miejsce">
+          <End Role="Miejsce" Type="Self.Miejsce" Multiplicity="0..1" />
+          <End Role="Promocja" Type="Self.Promocja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Miejsce">
+              <PropertyRef Name="IdMiejsca" />
+            </Principal>
+            <Dependent Role="Promocja">
+              <PropertyRef Name="IdMiejsca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DywanyAppModelStoreContainer">
+          <EntitySet Name="Dywan" EntityType="Self.Dywan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Miejsce" EntityType="Self.Miejsce" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Plusy" EntityType="Self.Plusy" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pracownik" EntityType="Self.Pracownik" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Promocja" EntityType="Self.Promocja" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Zdjecie" EntityType="Self.Zdjecie" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Dywan_Miejsce" Association="Self.FK_Dywan_Miejsce">
+            <End Role="Miejsce" EntitySet="Miejsce" />
+            <End Role="Dywan" EntitySet="Dywan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dywan_Promocja" Association="Self.FK_Dywan_Promocja">
+            <End Role="Promocja" EntitySet="Promocja" />
+            <End Role="Dywan" EntitySet="Dywan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dywan_Zdjecie" Association="Self.FK_Dywan_Zdjecie">
+            <End Role="Zdjecie" EntitySet="Zdjecie" />
+            <End Role="Dywan" EntitySet="Dywan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Plusy_Miejsce" Association="Self.FK_Plusy_Miejsce">
+            <End Role="Miejsce" EntitySet="Miejsce" />
+            <End Role="Plusy" EntitySet="Plusy" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Promocja_Miejsce" Association="Self.FK_Promocja_Miejsce">
+            <End Role="Miejsce" EntitySet="Miejsce" />
+            <End Role="Promocja" EntitySet="Promocja" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DywanyAppModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Dywan">
+          <Key>
+            <PropertyRef Name="IdDywanu" />
+          </Key>
+          <Property Name="IdDywanu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Indeks" Type="Int32" />
+          <Property Name="Ilosc" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Nazwa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Grupa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Cena" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="IdPolozenia" Type="Int32" />
+          <Property Name="IdPromocji" Type="Int32" />
+          <Property Name="CzyNaPromocji" Type="Boolean" />
+          <Property Name="IdZdjecia" Type="Int32" />
+          <NavigationProperty Name="Miejsce" Relationship="Self.FK_Dywan_Miejsce" FromRole="Dywan" ToRole="Miejsce" />
+          <NavigationProperty Name="Promocja" Relationship="Self.FK_Dywan_Promocja" FromRole="Dywan" ToRole="Promocja" />
+          <NavigationProperty Name="Zdjecie" Relationship="Self.FK_Dywan_Zdjecie" FromRole="Dywan" ToRole="Zdjecie" />
+        </EntityType>
+        <EntityType Name="Miejsce">
+          <Key>
+            <PropertyRef Name="IdMiejsca" />
+          </Key>
+          <Property Name="IdMiejsca" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NazwaMiejsca" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NazwaPolozenia" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Dywan" Relationship="Self.FK_Dywan_Miejsce" FromRole="Miejsce" ToRole="Dywan" />
+          <NavigationProperty Name="Plusy" Relationship="Self.FK_Plusy_Miejsce" FromRole="Miejsce" ToRole="Plusy" />
+          <NavigationProperty Name="Promocja" Relationship="Self.FK_Promocja_Miejsce" FromRole="Miejsce" ToRole="Promocja" />
+        </EntityType>
+        <EntityType Name="Plusy">
+          <Key>
+            <PropertyRef Name="IdPlusu" />
+          </Key>
+          <Property Name="IdPlusu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Indeks" Type="Int32" />
+          <Property Name="Ilosc" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Nazwa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdMiejsca" Type="Int32" />
+          <Property Name="Cena" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Miejsce" Relationship="Self.FK_Plusy_Miejsce" FromRole="Plusy" ToRole="Miejsce" />
+        </EntityType>
+        <EntityType Name="Pracownik">
+          <Key>
+            <PropertyRef Name="IdPracownika" />
+          </Key>
+          <Property Name="IdPracownika" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Imie" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Nazwisko" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NumerPracownika" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Promocja">
+          <Key>
+            <PropertyRef Name="IdPromocji" />
+          </Key>
+          <Property Name="IdPromocji" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Indeks" Type="Int32" />
+          <Property Name="IdMiejsca" Type="Int32" />
+          <Property Name="Nazwa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Ilosc" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Cena" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Dywan" Relationship="Self.FK_Dywan_Promocja" FromRole="Promocja" ToRole="Dywan" />
+          <NavigationProperty Name="Miejsce" Relationship="Self.FK_Promocja_Miejsce" FromRole="Promocja" ToRole="Miejsce" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Zdjecie">
+          <Key>
+            <PropertyRef Name="IdZdjecia" />
+          </Key>
+          <Property Name="IdZdjecia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NazwaZdjecia" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UrlZdjecia" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Miniaturka" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Dywan" Relationship="Self.FK_Dywan_Zdjecie" FromRole="Zdjecie" ToRole="Dywan" />
+        </EntityType>
+        <Association Name="FK_Dywan_Miejsce">
+          <End Role="Miejsce" Type="Self.Miejsce" Multiplicity="0..1" />
+          <End Role="Dywan" Type="Self.Dywan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Miejsce">
+              <PropertyRef Name="IdMiejsca" />
+            </Principal>
+            <Dependent Role="Dywan">
+              <PropertyRef Name="IdPolozenia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dywan_Promocja">
+          <End Role="Promocja" Type="Self.Promocja" Multiplicity="0..1" />
+          <End Role="Dywan" Type="Self.Dywan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Promocja">
+              <PropertyRef Name="IdPromocji" />
+            </Principal>
+            <Dependent Role="Dywan">
+              <PropertyRef Name="IdPromocji" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dywan_Zdjecie">
+          <End Role="Zdjecie" Type="Self.Zdjecie" Multiplicity="0..1" />
+          <End Role="Dywan" Type="Self.Dywan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zdjecie">
+              <PropertyRef Name="IdZdjecia" />
+            </Principal>
+            <Dependent Role="Dywan">
+              <PropertyRef Name="IdZdjecia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Plusy_Miejsce">
+          <End Role="Miejsce" Type="Self.Miejsce" Multiplicity="0..1" />
+          <End Role="Plusy" Type="Self.Plusy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Miejsce">
+              <PropertyRef Name="IdMiejsca" />
+            </Principal>
+            <Dependent Role="Plusy">
+              <PropertyRef Name="IdMiejsca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Promocja_Miejsce">
+          <End Role="Miejsce" Type="Self.Miejsce" Multiplicity="0..1" />
+          <End Role="Promocja" Type="Self.Promocja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Miejsce">
+              <PropertyRef Name="IdMiejsca" />
+            </Principal>
+            <Dependent Role="Promocja">
+              <PropertyRef Name="IdMiejsca" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DywanEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Dywan" EntityType="Self.Dywan" />
+          <EntitySet Name="Miejsce" EntityType="Self.Miejsce" />
+          <EntitySet Name="Plusy" EntityType="Self.Plusy" />
+          <EntitySet Name="Pracownik" EntityType="Self.Pracownik" />
+          <EntitySet Name="Promocja" EntityType="Self.Promocja" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Zdjecie" EntityType="Self.Zdjecie" />
+          <AssociationSet Name="FK_Dywan_Miejsce" Association="Self.FK_Dywan_Miejsce">
+            <End Role="Miejsce" EntitySet="Miejsce" />
+            <End Role="Dywan" EntitySet="Dywan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dywan_Promocja" Association="Self.FK_Dywan_Promocja">
+            <End Role="Promocja" EntitySet="Promocja" />
+            <End Role="Dywan" EntitySet="Dywan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dywan_Zdjecie" Association="Self.FK_Dywan_Zdjecie">
+            <End Role="Zdjecie" EntitySet="Zdjecie" />
+            <End Role="Dywan" EntitySet="Dywan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Plusy_Miejsce" Association="Self.FK_Plusy_Miejsce">
+            <End Role="Miejsce" EntitySet="Miejsce" />
+            <End Role="Plusy" EntitySet="Plusy" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Promocja_Miejsce" Association="Self.FK_Promocja_Miejsce">
+            <End Role="Miejsce" EntitySet="Miejsce" />
+            <End Role="Promocja" EntitySet="Promocja" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DywanyAppModelStoreContainer" CdmEntityContainer="DywanEntities">
+          <EntitySetMapping Name="Dywan">
+            <EntityTypeMapping TypeName="DywanyAppModel.Dywan">
+              <MappingFragment StoreEntitySet="Dywan">
+                <ScalarProperty Name="IdDywanu" ColumnName="IdDywanu" />
+                <ScalarProperty Name="Indeks" ColumnName="Indeks" />
+                <ScalarProperty Name="Ilosc" ColumnName="Ilosc" />
+                <ScalarProperty Name="Nazwa" ColumnName="Nazwa" />
+                <ScalarProperty Name="Grupa" ColumnName="Grupa" />
+                <ScalarProperty Name="Cena" ColumnName="Cena" />
+                <ScalarProperty Name="IdPolozenia" ColumnName="IdPolozenia" />
+                <ScalarProperty Name="IdPromocji" ColumnName="IdPromocji" />
+                <ScalarProperty Name="CzyNaPromocji" ColumnName="CzyNaPromocji" />
+                <ScalarProperty Name="IdZdjecia" ColumnName="IdZdjecia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Miejsce">
+            <EntityTypeMapping TypeName="DywanyAppModel.Miejsce">
+              <MappingFragment StoreEntitySet="Miejsce">
+                <ScalarProperty Name="IdMiejsca" ColumnName="IdMiejsca" />
+                <ScalarProperty Name="NazwaMiejsca" ColumnName="NazwaMiejsca" />
+                <ScalarProperty Name="NazwaPolozenia" ColumnName="NazwaPolozenia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Plusy">
+            <EntityTypeMapping TypeName="DywanyAppModel.Plusy">
+              <MappingFragment StoreEntitySet="Plusy">
+                <ScalarProperty Name="IdPlusu" ColumnName="IdPlusu" />
+                <ScalarProperty Name="Indeks" ColumnName="Indeks" />
+                <ScalarProperty Name="Ilosc" ColumnName="Ilosc" />
+                <ScalarProperty Name="Nazwa" ColumnName="Nazwa" />
+                <ScalarProperty Name="IdMiejsca" ColumnName="IdMiejsca" />
+                <ScalarProperty Name="Cena" ColumnName="Cena" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pracownik">
+            <EntityTypeMapping TypeName="DywanyAppModel.Pracownik">
+              <MappingFragment StoreEntitySet="Pracownik">
+                <ScalarProperty Name="IdPracownika" ColumnName="IdPracownika" />
+                <ScalarProperty Name="Imie" ColumnName="Imie" />
+                <ScalarProperty Name="Nazwisko" ColumnName="Nazwisko" />
+                <ScalarProperty Name="NumerPracownika" ColumnName="NumerPracownika" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Promocja">
+            <EntityTypeMapping TypeName="DywanyAppModel.Promocja">
+              <MappingFragment StoreEntitySet="Promocja">
+                <ScalarProperty Name="IdPromocji" ColumnName="IdPromocji" />
+                <ScalarProperty Name="Indeks" ColumnName="Indeks" />
+                <ScalarProperty Name="IdMiejsca" ColumnName="IdMiejsca" />
+                <ScalarProperty Name="Nazwa" ColumnName="Nazwa" />
+                <ScalarProperty Name="Ilosc" ColumnName="Ilosc" />
+                <ScalarProperty Name="Cena" ColumnName="Cena" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DywanyAppModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Zdjecie">
+            <EntityTypeMapping TypeName="DywanyAppModel.Zdjecie">
+              <MappingFragment StoreEntitySet="Zdjecie">
+                <ScalarProperty Name="IdZdjecia" ColumnName="IdZdjecia" />
+                <ScalarProperty Name="NazwaZdjecia" ColumnName="NazwaZdjecia" />
+                <ScalarProperty Name="UrlZdjecia" ColumnName="UrlZdjecia" />
+                <ScalarProperty Name="Miniaturka" ColumnName="Miniaturka" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
